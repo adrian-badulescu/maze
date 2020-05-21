@@ -1,0 +1,38 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <input type="hidden" id="id" formControlName="id">
+    </div>
+    <label>
+        Width:
+        <input type="number" formControlName="width">
+    </label><br>
+
+    <label>
+        Height:
+        <input type="number" formControlName="height">
+    </label><br>
+
+    <label>
+        Start:
+        <input type="number" formControlName="start">
+    </label><br>
+
+    <label>
+        End:
+        <input type="number" formControlName="end">
+    </label><br>
+
+    <label>
+        Brick Density:
+        <input type="number" formControlName="density">
+    </label><br>
+
+    <button type="submit" [disabled]="!form.valid">Submit</button>
+</form>
+
+<app-maze></app-maze>
+
+<!-- <div *ngIf="form.value">
+    <p>Val form: </p>
+    {{form | json}}
+</div> -->
