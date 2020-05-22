@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { formCls, HW } from './form/form.model'
 // import { BehaviorSubject } from 'rxjx/BehaviorSubject';
-import {BehaviorSubject, Observable, from, of} from 'rxjs';
+import { BehaviorSubject, Observable, from, of } from 'rxjs';
 
 
 
@@ -12,34 +12,28 @@ import {BehaviorSubject, Observable, from, of} from 'rxjs';
 export class Service {
 
   data: any;
-  
+
   dataArr$: Observable<any[]>;
   private formData = new BehaviorSubject<object>(this.data);
   currentData$ = this.formData.asObservable();
 
-  height:number = null;
-  width: number =null;
+  height: number = null;
+  width: number = null;
 
-  
+
 
 
   constructor() { }
 
-  // sendData(data) {
-  //   this.currentData$.next(data)
-  // }
 
-  calcStyles(height, width) {
-   const dataArr = [];
+  calcStyles(formValue) {
 
-   dataArr.push({
-      // id,
-      height,
-      width
-   })
-  console.log(dataArr);
-   return this.dataArr$ = from(dataArr);
-      
+    const dataArr = [];
+
+    dataArr.push(...arguments);
+
+    return this.dataArr$ = from(dataArr);
+
   }
 
 }

@@ -28,9 +28,11 @@ export class FormComponent implements OnInit {
 
   onSubmit() {
     
-    console.log(this.form.value);
-    // this.service.data = this.form.value;
-    this.service.calcStyles(this.form.get('height').value, this.form.get('width').value)
+   
+    
+    // this.service.calcStyles(this.form.get('height').value, this.form.get('width').value).
+    this.service.calcStyles(this.form.value);
+    
 
   }
 
