@@ -31,14 +31,19 @@ export class MazeComponent implements OnInit {
   }
   getWidthAndHeigth(data): HW {
     const {height, width} = data;
-    this.borders = {height, width};
+    const px = 'px';
+    const _borders = {height, width};
+    
+    let h = (_borders.height).toString().concat(px);
+    let w = (_borders.width).toString().concat(px);
+  
     console.log(this.borders);
-    return this.borders;
-    // return this.bordersStr = JSON.stringify(this.borders);
+    return this.borders = new HW(h,w);
+
   }
   setWidthAndHeigth(): void {
 
   }
-
+ 
 
 }

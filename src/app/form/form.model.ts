@@ -8,7 +8,12 @@ export class formCls {
 
 }
 
-export interface HW {
-    height: number;
-    width: number;
+export class HW {
+    height: string;
+    width: string;
+
+    constructor(h, w) {
+        this.height = h;
+        this.width = w;
+    }
 }

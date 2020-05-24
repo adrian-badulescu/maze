@@ -17,8 +17,8 @@ export class Service {
   private formData = new BehaviorSubject<object>(this.data);
   currentData$ = this.formData.asObservable();
 
-  height: number = null;
-  width: number = null;
+  // height: number = null;
+  // width: number = null;
 
 
 
