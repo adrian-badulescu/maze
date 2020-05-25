@@ -22,11 +22,11 @@ export class Service {
   constructor() { }
 
 
-  calcStyles(obj): Observable<any> {
+  calcStyles(formValue): Observable<any> {
 
     const dataArr = [];
 
-    dataArr.push(obj);
+    dataArr.push(...arguments);
 
     return this.dataArr$ = from(dataArr);
 
