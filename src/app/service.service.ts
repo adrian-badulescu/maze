@@ -14,13 +14,9 @@ export class Service {
   data: any;
 
   dataArr$: Observable<any[]>;
+  brickArr$: Observable<any[]>;
   private formData = new BehaviorSubject<object>(this.data);
   currentData$ = this.formData.asObservable();
-
-  // height: number = null;
-  // width: number = null;
-
-
 
 
   constructor() { }
@@ -35,5 +31,16 @@ export class Service {
     return this.dataArr$ = from(dataArr);
 
   }
+
+  range(start, end) {
+    let arr = [];
+    for (let i = start; i <= end; i++) {
+      arr.push(i);
+    }
+    return this.brickArr$ = from(arr);
+  }
+
+
+
 
 }

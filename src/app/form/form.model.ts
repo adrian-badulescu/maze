@@ -17,3 +17,7 @@ export class HW {
         this.width = w;
     }
 }
+
+export class Block{
+    block: string;
+}
