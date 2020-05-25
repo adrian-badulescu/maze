@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -28,4 +28,14 @@ jobs:
     - run: npm i -g @angular/cli
     - run: ls -lh
     - run: ng build --prod --output-path docs --base-href /maze
+    - run: ls -lh docs/*
+    - run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add --all
+        git commit -m "CD" -a --allow-empty
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
