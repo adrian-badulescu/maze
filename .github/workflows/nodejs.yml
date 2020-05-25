@@ -27,7 +27,7 @@ jobs:
     - run: npm i
     - run: npm i -g @angular/cli
     - run: ls -lh
-    - run: ng build --prod --output-path docs --base-href /maze
+    - run: ng build --prod --output-path docs --base-href "https://adrian-badulescu.github.io/maze/"
     - run: ls -lh docs/*
     - run: |
         git config --local user.email "action@github.com"
