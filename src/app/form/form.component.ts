@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder,Validators} from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Service } from '../service.service';
 
 @Component({
@@ -21,19 +21,13 @@ export class FormComponent implements OnInit {
       start: ["", [Validators.required]],
       end: ["", [Validators.required]],
       density: ["", [Validators.required]]
-      
+
     })
 
   }
 
   onSubmit() {
-    
-   
-    
-    // this.service.calcStyles(this.form.get('height').value, this.form.get('width').value).
     this.service.calcStyles(this.form.value);
-    
-
   }
 
 }

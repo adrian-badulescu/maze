@@ -1,14 +1,16 @@
-import { Observable } from "rxjs";
-import { Component, OnInit } from "@angular/core";
-import { Service } from "../service.service";
-import { formCls, HW } from "../form/form.model";
+import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Service } from '../service.service';
+import { formCls, HW } from '../form/form.model';
 
 @Component({
-  selector: "app-maze",
-  templateUrl: "./maze.component.html",
-  styleUrls: ["./maze.component.css"],
+  selector: 'app-maze',
+  templateUrl: './maze.component.html',
+  styleUrls: ['./maze.component.css'],
 })
-export class MazeComponent implements OnInit {
+export class MazeComponent implements OnInit, AfterViewInit {
+  @ViewChild('ref', { read: ElementRef }) ref: ElementRef;
+
   data;
   borders: HW;
   bricksArray: Array<number> = [];
@@ -16,24 +18,35 @@ export class MazeComponent implements OnInit {
   width: number = 200;
   height: number = 200;
   blockNumber: Array<number> = [];
-  constructor(private service: Service) {}
+  constructor(private service: Service) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+  ngAfterViewInit() {
+    console.log(this.ref);
+  }
+
+
 
   getData() {
-    this.service.dataArr$.subscribe((data) => (this.data = data));
-    this.getWidthAndHeigth(this.data);
-    this.bricksArray = this.service.range(0, this.data["density"]);
-    
+    this.service.dataArr$.subscribe((data) => {
+      // this.data = data;
+      this.getWidthAndHeigth(data);
+      this.bricksArray = this.service.range(0, data['density']);
+      });
+ 
   }
+
+
   getWidthAndHeigth(data): HW {
     const { height, width } = data;
-    const px = "px";
-    const _borders = { height, width };
-
-    let h = _borders.height.toString().concat(px);
-    let w = _borders.width.toString().concat(px);
+    const px = 'px';
+    const h = height.toString().concat(px);
+    const w = width.toString().concat(px);
 
     return (this.borders = new HW(h, w));
   }
+
+
+
+
 }

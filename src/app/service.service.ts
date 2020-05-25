@@ -22,7 +22,7 @@ export class Service {
   constructor() { }
 
 
-  calcStyles(formValue) {
+  calcStyles(formValue): Observable<any> {
 
     const dataArr = [];
 
