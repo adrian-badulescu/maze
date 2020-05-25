@@ -14,7 +14,7 @@ export class Service {
   data: any;
 
   dataArr$: Observable<any[]>;
-  brickArr$: Observable<any[]>;
+  brickArr: Array<number> = [];
   private formData = new BehaviorSubject<object>(this.data);
   currentData$ = this.formData.asObservable();
 
@@ -32,12 +32,12 @@ export class Service {
 
   }
 
-  range(start, end) {
+  range(start, end): Array<number> {
     let arr = [];
-    for (let i = start; i <= end; i++) {
+    for (let i = start; i < end; i++) {
       arr.push(i);
     }
-    return this.brickArr$ = from(arr);
+    return this.brickArr = arr;
   }
 
 
