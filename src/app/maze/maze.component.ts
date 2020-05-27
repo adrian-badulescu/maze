@@ -19,6 +19,10 @@ export class MazeComponent implements OnInit, AfterViewInit {
   @ViewChild("canvas", { read: ElementRef }) canvasRef: ElementRef;
   height = 400;
   width = 400;
+  totalCols;
+  totalRows;
+
+
   private ctx: CanvasRenderingContext2D;
 
   data;
@@ -29,6 +33,7 @@ export class MazeComponent implements OnInit, AfterViewInit {
   constructor(private service: Service) {}
 
   ngOnInit() {}
+
   ngAfterViewInit() {
     const canvasElement: HTMLCanvasElement = this.canvasRef.nativeElement;
     this.ctx = canvasElement.getContext("2d");
@@ -57,7 +62,18 @@ export class MazeComponent implements OnInit, AfterViewInit {
   drawCanvas(h, w) {
     this.ctx.canvas.height = h;
     this.ctx.canvas.width = w;
+    let colWidth = w / 10;
+    let rowHeight = h / 10;
+    this.totalCols = Math.floor(w / colWidth);
+    this.totalRows = Math.floor(h / rowHeight);
 
+    console.log(`total cols: ${this.totalCols} | total rows: ${this.totalRows}`);
     console.log("canvas size: ", this.ctx.canvas.width, this.ctx.canvas.height);
   }
+
+  cell(x,y) {
+   this.totalCols= x;
+   this.totalRows = y;
+  }
+
 }
