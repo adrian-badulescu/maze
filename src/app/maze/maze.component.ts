@@ -8,7 +8,7 @@ import {
   Input,
 } from "@angular/core";
 import { Service } from "../service.service";
-import { formCls, HW } from "../form/form.model";
+import { formCls, HW, Cell } from "../form/form.model";
 
 @Component({
   selector: "app-maze",
@@ -62,18 +62,23 @@ export class MazeComponent implements OnInit, AfterViewInit {
   drawCanvas(h, w) {
     this.ctx.canvas.height = h;
     this.ctx.canvas.width = w;
-    let colWidth = w / 10;
-    let rowHeight = h / 10;
+    const colWidth = w / 10;
+    const rowHeight = h / 10;
     this.totalCols = Math.floor(w / colWidth);
     this.totalRows = Math.floor(h / rowHeight);
 
+    for(let y = 0; y < this.totalRows; y++){
+
+      for(let x = 0; x < this.totalCols; x++) {
+        const cell = new Cell(x, y);
+      }
+      
+    }
+
     console.log(`total cols: ${this.totalCols} | total rows: ${this.totalRows}`);
-    console.log("canvas size: ", this.ctx.canvas.width, this.ctx.canvas.height);
+    console.log(`canvas W: ${this.ctx.canvas.width} | canvas H: ${this.ctx.canvas.height}`);
   }
 
-  cell(x,y) {
-   this.totalCols= x;
-   this.totalRows = y;
-  }
+
 
 }
