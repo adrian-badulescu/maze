@@ -7,8 +7,11 @@
 
 <button (click)="getData()">Set</button>
 
-<div [style]="borders">
+<!-- <div [style]="borders">
     <div style="text-align: center;font-size: 30px;"  *ngFor="let brick of bricksArray">
        {{brick + 1}}
     </div>
+</div> -->
+<div [style]="borders">
+    <canvas #canvas style="border: 1px solid black;"></canvas>
 </div>

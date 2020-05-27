@@ -15,8 +15,8 @@ export class Service {
 
   dataArr$: Observable<any[]>;
   brickArr: Array<number> = [];
-  private formData = new BehaviorSubject<object>(this.data);
-  currentData$ = this.formData.asObservable();
+  // private formData = new BehaviorSubject<object>(this.data);
+  // currentData$ = this.formData.asObservable();
 
 
   constructor() { }

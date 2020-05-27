@@ -1,3 +1,4 @@
+
 export class formCls {
     id: string;
     width: number;
@@ -7,6 +8,15 @@ export class formCls {
     density: number;
 
 }
+
+// export class Canvas {
+//     height: number;
+//     width: number;
+
+//     constructor(h, w){
+//         this.height = h
+//     }
+// }
 
 export class HW {
     height: string;
@@ -18,6 +28,4 @@ export class HW {
     }
 }
 
-export class Block{
-    block: string;
-}
+
