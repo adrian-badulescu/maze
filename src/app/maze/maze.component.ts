@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable, from } from "rxjs";
 import {
   Component,
   OnInit,
@@ -22,12 +22,12 @@ export class MazeComponent implements OnInit, AfterViewInit {
   totalCols;
   totalRows;
 
-
   private ctx: CanvasRenderingContext2D;
 
   data;
   borders: HW;
-  bricksArray: Array<number> = [];
+  cellsArray: Array<Cell> = [];
+  // cellsArray$: Observable<Cell>;
   bordersStr: string;
   blockNumber: Array<number> = [];
   constructor(private service: Service) {}
@@ -66,19 +66,38 @@ export class MazeComponent implements OnInit, AfterViewInit {
     const rowHeight = h / 10;
     this.totalCols = Math.floor(w / colWidth);
     this.totalRows = Math.floor(h / rowHeight);
+    this.generateCells(this.totalCols, this.totalRows);
 
-    for(let y = 0; y < this.totalRows; y++){
-
-      for(let x = 0; x < this.totalCols; x++) {
-        const cell = new Cell(x, y);
-      }
-      
-    }
-
-    console.log(`total cols: ${this.totalCols} | total rows: ${this.totalRows}`);
-    console.log(`canvas W: ${this.ctx.canvas.width} | canvas H: ${this.ctx.canvas.height}`);
+    console.log(
+      `total cols: ${this.totalCols} | total rows: ${this.totalRows}`
+    );
+    console.log(
+      `canvas W: ${this.ctx.canvas.width} | canvas H: ${this.ctx.canvas.height}`
+    );
   }
 
+  // x,y cartesians
+  generateCells(numberOfCols, numberOfRows): Array<Cell> {
+    for (let y = 0; y < numberOfRows; y++) {
+      for (let x = 0; x < numberOfCols; x++) {
+        // making a new cell for each iteration
+        const cell = new Cell(x, y);
+        this.cellsArray.push(cell);
+      }
+    }
+    return this.cellsArray;
+  }
 
+  iterateCells(cells: Array<Cell>) {
+    const arrLen: number = cells.length;
+    for (let i = 0; i < arrLen; i++) {
+      cells[i]
+    }
+  }
 
+  showCells(x: number,y: number,w: number,h: number) {
+    
+    this.ctx.strokeRect(x,y,w,h);
+    this.ctx.strokeStyle = 'red';
+  }
 }
