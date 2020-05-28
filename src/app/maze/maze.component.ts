@@ -96,8 +96,10 @@ export class MazeComponent implements OnInit, AfterViewInit {
     const arrLen: number = cells.length;
 
     for (let i = 0; i < arrLen; i++) {
-      
+      console.log(i);
       this.drawCells(cells[i].x, cells[i].y, this.colWidth, this.rowHeight)
+      this.ctx.strokeStyle = "red";  
+      
       
       console.log(`X: ${cells[i].x} | Y: ${cells[i].y} | colWidth ${this.colWidth} | rowHeight ${this.rowHeight}`);
  
@@ -106,11 +108,13 @@ export class MazeComponent implements OnInit, AfterViewInit {
   }
 
   drawCells(x: number, y: number, width: number, height: number) { 
+    let X: number = x * width;
+    let Y: number = y * width;
     this.ctx.strokeStyle = "red";  
-    this.ctx.strokeRect(x, y, width, height);
+    this.ctx.strokeRect(X, Y, width, height);
     
   }
 
 
-  
+
 }
