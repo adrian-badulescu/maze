@@ -18,9 +18,9 @@ export class FormComponent implements OnInit {
       id: [""],
       width: ['', [Validators.required]],
       height: ["", [Validators.required]],
-      start: ["", [Validators.required]],
-      end: ["", [Validators.required]],
-      density: ["", [Validators.required]]
+      start: [""],
+      end: [""],
+      density: [""]
 
     })
 

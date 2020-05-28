@@ -97,11 +97,8 @@ export class MazeComponent implements OnInit, AfterViewInit {
 
     for (let i = 0; i < arrLen; i++) {
       console.log(i);
-      this.drawCells(cells[i].x, cells[i].y, this.colWidth, this.rowHeight)
-      this.ctx.strokeStyle = "red";  
-      
-      
-      console.log(`X: ${cells[i].x} | Y: ${cells[i].y} | colWidth ${this.colWidth} | rowHeight ${this.rowHeight}`);
+      this.drawCells(cells[i].x, cells[i].y, this.colWidth, this.rowHeight);
+      // console.log(`X: ${cells[i].x} | Y: ${cells[i].y} | colWidth ${this.colWidth} | rowHeight ${this.rowHeight}`);
  
     }
 
@@ -109,9 +106,18 @@ export class MazeComponent implements OnInit, AfterViewInit {
 
   drawCells(x: number, y: number, width: number, height: number) { 
     let X: number = x * width;
-    let Y: number = y * width;
-    this.ctx.strokeStyle = "red";  
-    this.ctx.strokeRect(X, Y, width, height);
+    let Y: number = y * height;
+    console.log(`X: ${X} | Y: ${Y}`)
+    this.ctx.strokeStyle = "red";
+    this.ctx.lineWidth = 1;
+    this.ctx.moveTo(X,Y);
+    this.ctx.lineTo(X, Y);    
+    this.ctx.lineTo(X + width, Y);
+    this.ctx.lineTo(X + width, Y + height);
+    this.ctx.lineTo(X, Y + height);
+    this.ctx.stroke();
+
+    // this.ctx.strokeRect(X, Y, width, height);
     
   }
 
