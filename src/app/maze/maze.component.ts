@@ -17,10 +17,12 @@ import { formCls, HW, Cell } from "../form/form.model";
 })
 export class MazeComponent implements OnInit, AfterViewInit {
   @ViewChild("canvas", { read: ElementRef }) canvasRef: ElementRef;
-  height = 400;
-  width = 400;
-  totalCols;
-  totalRows;
+  height: number = 400;
+  width: number = 400;
+  colWidth: number;
+  rowHeight: number;
+  totalCols: number;
+  totalRows: number;
 
   private ctx: CanvasRenderingContext2D;
 
@@ -62,11 +64,12 @@ export class MazeComponent implements OnInit, AfterViewInit {
   drawCanvas(h, w) {
     this.ctx.canvas.height = h;
     this.ctx.canvas.width = w;
-    const colWidth = w / 10;
-    const rowHeight = h / 10;
-    this.totalCols = Math.floor(w / colWidth);
-    this.totalRows = Math.floor(h / rowHeight);
+    this.colWidth = w / 10;
+    this.rowHeight = h / 10;
+    this.totalCols = Math.floor(w / this.colWidth);
+    this.totalRows = Math.floor(h / this.rowHeight);
     this.generateCells(this.totalCols, this.totalRows);
+    this.iterateCells(this.cellsArray);
 
     console.log(
       `total cols: ${this.totalCols} | total rows: ${this.totalRows}`
@@ -85,19 +88,29 @@ export class MazeComponent implements OnInit, AfterViewInit {
         this.cellsArray.push(cell);
       }
     }
+
     return this.cellsArray;
   }
 
   iterateCells(cells: Array<Cell>) {
     const arrLen: number = cells.length;
+
     for (let i = 0; i < arrLen; i++) {
-      cells[i]
+      
+      this.drawCells(cells[i].x, cells[i].y, this.colWidth, this.rowHeight)
+      
+      console.log(`X: ${cells[i].x} | Y: ${cells[i].y} | colWidth ${this.colWidth} | rowHeight ${this.rowHeight}`);
+ 
     }
+
   }
 
-  showCells(x: number,y: number,w: number,h: number) {
+  drawCells(x: number, y: number, width: number, height: number) { 
+    this.ctx.strokeStyle = "red";  
+    this.ctx.strokeRect(x, y, width, height);
     
-    this.ctx.strokeRect(x,y,w,h);
-    this.ctx.strokeStyle = 'red';
   }
+
+
+  
 }
