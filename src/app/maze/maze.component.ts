@@ -110,11 +110,11 @@ export class MazeComponent implements OnInit, AfterViewInit {
     console.log(`X: ${X} | Y: ${Y}`)
     this.ctx.strokeStyle = "red";
     this.ctx.lineWidth = 1;
-    this.ctx.moveTo(X,Y);
-    this.ctx.lineTo(X, Y);    
+    this.ctx.moveTo(X,Y);       
     this.ctx.lineTo(X + width, Y);
     this.ctx.lineTo(X + width, Y + height);
-    this.ctx.lineTo(X, Y + height);
+    this.ctx.lineTo(X - width, Y + height);
+    this.ctx.lineTo(X - width, Y - height);
     this.ctx.stroke();
 
     // this.ctx.strokeRect(X, Y, width, height);
