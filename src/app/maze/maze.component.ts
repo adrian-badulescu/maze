@@ -110,13 +110,27 @@ export class MazeComponent implements OnInit, AfterViewInit {
     console.log(`X: ${X} | Y: ${Y}`)
     this.ctx.strokeStyle = "red";
     this.ctx.lineWidth = 1;
-    this.ctx.moveTo(X,Y);       
-    this.ctx.lineTo(X + width, Y);
-    this.ctx.lineTo(X + width, Y + height);
-    this.ctx.lineTo(X - width, Y + height);
-    this.ctx.lineTo(X - width, Y - height);
+
+    // // horizontal upper line
+    this.ctx.moveTo(X,Y);  // init pos     
+    this.ctx.lineTo(X + width, Y); // to right as long as the width
+
+    // vertical right line
+    this.ctx.moveTo(X + width, Y)
+    this.ctx.lineTo(X + width, Y + height); // from the cell most right down to the height of Y
+
+    // // horizontal bottom line
+    this.ctx.moveTo(X + width, Y + height)
+    this.ctx.lineTo(X - width, Y + height); // back to X = 0 mantaining the height of Y
+
+    // vertical left line
+    this.ctx.moveTo(X - width, Y + height)
+    this.ctx.lineTo(X - width, Y - height); // back to the top
+
+    // draw the lines
     this.ctx.stroke();
 
+    // draw cell one function
     // this.ctx.strokeRect(X, Y, width, height);
     
   }
