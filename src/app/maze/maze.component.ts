@@ -29,10 +29,14 @@ export class MazeComponent implements OnInit, AfterViewInit {
   data;
   borders: HW;
   cellsArray: Array<Cell> = [];
-  // cellsArray$: Observable<Cell>;
+  currentCell: Cell;
+  
+  
   bordersStr: string;
   blockNumber: Array<number> = [];
-  constructor(private service: Service) {}
+  constructor(private service: Service) {
+    // this.currentCell = new Cell(0,0)
+  }
 
   ngOnInit() {}
 
@@ -70,13 +74,13 @@ export class MazeComponent implements OnInit, AfterViewInit {
     this.totalRows = Math.floor(h / this.rowHeight);
     this.generateCells(this.totalCols, this.totalRows);
     this.iterateCells(this.cellsArray);
-
-    console.log(
-      `total cols: ${this.totalCols} | total rows: ${this.totalRows}`
-    );
-    console.log(
-      `canvas W: ${this.ctx.canvas.width} | canvas H: ${this.ctx.canvas.height}`
-    );
+    
+    // console.log(
+    //   `total cols: ${this.totalCols} | total rows: ${this.totalRows}`
+    // );
+    // console.log(
+    //   `canvas W: ${this.ctx.canvas.width} | canvas H: ${this.ctx.canvas.height}`
+    // );
   }
 
   // x,y cartesians
@@ -84,8 +88,9 @@ export class MazeComponent implements OnInit, AfterViewInit {
     for (let y = 0; y < numberOfRows; y++) {
       for (let x = 0; x < numberOfCols; x++) {
         // making a new cell for each iteration
-        const cell = new Cell(x, y);
+        const cell = new Cell(x, y, this.colWidth, this.rowHeight);
         this.cellsArray.push(cell);
+        // this.currentCell = this.cellsArray[0];
       }
     }
 
@@ -96,39 +101,62 @@ export class MazeComponent implements OnInit, AfterViewInit {
     const arrLen: number = cells.length;
 
     for (let i = 0; i < arrLen; i++) {
-      console.log(i);
-      this.drawCells(cells[i].x, cells[i].y, this.colWidth, this.rowHeight);
+      console.log(cells[i]);
+      this.drawCells(cells[i].X, cells[i].Y, cells[i].colWidth, cells[i].colHeight);
       // console.log(`X: ${cells[i].x} | Y: ${cells[i].y} | colWidth ${this.colWidth} | rowHeight ${this.rowHeight}`);
  
     }
 
   }
 
-  drawCells(x: number, y: number, width: number, height: number) { 
-    let X: number = x * width;
-    let Y: number = y * height;
-    console.log(`X: ${X} | Y: ${Y}`)
+  drawCells(X: number, Y: number, colWidth: number, colHeight: number) { 
+    
+    let walls: Array<boolean> = [true, true, true, true];
+    let visitedCellFlag: boolean = true;
+    
+    // console.log(`X: ${X} | Y: ${Y}`)
     this.ctx.strokeStyle = "red";
     this.ctx.lineWidth = 1;
 
-    // // horizontal upper line
-    this.ctx.moveTo(X,Y);  // init pos     
-    this.ctx.lineTo(X + width, Y); // to right as long as the width
+    
+    //  horizontal upper lines
+    if(walls[0]) {
+      this.ctx.moveTo(X,Y);   
+      this.ctx.lineTo(X + colWidth, Y); 
+    }
+
 
     // vertical right line
-    this.ctx.moveTo(X + width, Y)
-    this.ctx.lineTo(X + width, Y + height); // from the cell most right down to the height of Y
+    if(walls[1]){
+      this.ctx.moveTo(X + colWidth, Y)
+      this.ctx.lineTo(X + colWidth, Y + colHeight); 
+    }
 
-    // // horizontal bottom line
-    this.ctx.moveTo(X + width, Y + height)
-    this.ctx.lineTo(X - width, Y + height); // back to X = 0 mantaining the height of Y
+
+    // horizontal bottom line
+    if(walls[2]){
+      this.ctx.moveTo(X + colWidth, Y + colHeight)
+      this.ctx.lineTo(X - colWidth, Y + colHeight); 
+    }
+
 
     // vertical left line
-    this.ctx.moveTo(X - width, Y + height)
-    this.ctx.lineTo(X - width, Y - height); // back to the top
+    if(walls[3]){
+      this.ctx.moveTo(X - colWidth, Y + colHeight)
+      this.ctx.lineTo(X - colWidth, Y - colHeight); 
+    }
+
+    if(visitedCellFlag) {
+      this.currentCell;
+      this.ctx.fillStyle = '#99ff66';
+      this.ctx.fillRect(X,Y,colWidth,colHeight);
+     
+    }
 
     // draw the lines
     this.ctx.stroke();
+
+  
 
     // draw cell one function
     // this.ctx.strokeRect(X, Y, width, height);

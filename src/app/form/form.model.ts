@@ -9,14 +9,6 @@ export class formCls {
 
 }
 
-// export class Canvas {
-//     height: number;
-//     width: number;
-
-//     constructor(h, w){
-//         this.height = h
-//     }
-// }
 
 export class HW {
     height: string;
@@ -31,10 +23,18 @@ export class HW {
 export class Cell {
     x: number;
     y: number;
+    X: number;
+    Y: number;
+    colWidth: number;
+    colHeight: number;
    
-    constructor(x,y) {
+    constructor(x, y, colWidth, colHeight) {
         this.x = x;
         this.y = y;
+        this.X = x * colWidth;
+        this.Y = y * colHeight;
+        this.colWidth = colWidth;
+        this.colHeight = colHeight;
         
     }
   
