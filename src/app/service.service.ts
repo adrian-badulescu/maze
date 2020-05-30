@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { formCls, HW } from './form/form.model'
+import { formCls, HW, Cell } from './form/form.model'
 // import { BehaviorSubject } from 'rxjx/BehaviorSubject';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
 
@@ -12,11 +12,8 @@ import { BehaviorSubject, Observable, from, of } from 'rxjs';
 export class Service {
 
   data: any;
-
   dataArr$: Observable<any[]>;
   brickArr: Array<number> = [];
-  // private formData = new BehaviorSubject<object>(this.data);
-  // currentData$ = this.formData.asObservable();
 
 
   constructor() { }
@@ -26,7 +23,7 @@ export class Service {
 
     const dataArr = [];
 
-    dataArr.push(...arguments);
+    dataArr.push(formValue);
 
     return this.dataArr$ = from(dataArr);
 
@@ -39,6 +36,8 @@ export class Service {
     }
     return this.brickArr = arr;
   }
+
+  
 
 
 

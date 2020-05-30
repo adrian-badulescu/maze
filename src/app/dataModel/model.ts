@@ -28,7 +28,7 @@ export class Cell {
     colWidth: number;
     colHeight: number;
    
-    constructor(x, y, colWidth, colHeight) {
+    constructor(x: number, y: number, colWidth: number, colHeight: number) {
         this.x = x;
         this.y = y;
         this.X = x * colWidth;
