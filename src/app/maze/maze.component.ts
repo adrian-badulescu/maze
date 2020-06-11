@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { Service } from "../service.service";
 import { HW, Cell } from "../dataModel/model";
+import { element } from "protractor";
 
 @Component({
   selector: "app-maze",
@@ -22,7 +23,7 @@ export class MazeComponent implements OnInit, AfterViewInit {
   rowHeight: number;
   totalCols: number;
   totalRows: number;
-  visitedCellFlag: boolean = true;
+  
 
   private ctx: CanvasRenderingContext2D;
 
@@ -34,7 +35,7 @@ export class MazeComponent implements OnInit, AfterViewInit {
   bordersStr: string;
   blockNumber: Array<number> = [];
   constructor(private service: Service) {
-    // this.currentCell = new Cell(0, 0, this.colWidth, this.rowHeight);
+    // this.height = 400; this.width = 400;
   }
 
   ngOnInit() {}
@@ -42,28 +43,27 @@ export class MazeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     const canvasElement: HTMLCanvasElement = this.canvasRef.nativeElement;
     this.ctx = canvasElement.getContext("2d");
-    this.drawCanvas(this.height, this.width);
-    // this.ctx.canvas.width = this.width;
-    // this.ctx.canvas.height = this.height;
+    // this.drawCanvas(this.height, this.width);
   }
 
   getData() {
     this.service.dataArr$.subscribe((data) => {
+      console.log(data);
       this.data = data;
-      // this.getWidthAndHeigth(data);
+      this.getWidthAndHeigth(data);
       // this.bricksArray = this.service.range(0, data["density"]);
     });
   }
 
-  // getWidthAndHeigth(data): HW {
-  //   const { height, width } = data;
-  //   const px = "px";
-  //   const h = height.toString().concat(px);
-  //   const w = width.toString().concat(px);
-  //   this.drawCanvas(height, width);
+  getWidthAndHeigth(data): HW {
+    const { height, width } = data;
+    const px = "px";
+    const h = height.toString().concat(px);
+    const w = width.toString().concat(px);
+    this.drawCanvas(height, width);
 
-  //   return (this.borders = new HW(h, w));
-  // }
+    return (this.borders = new HW(h, w));
+  }
 
   drawCanvas(h, w) {
     this.ctx.canvas.height = h;
@@ -75,12 +75,6 @@ export class MazeComponent implements OnInit, AfterViewInit {
     this.generateCells(this.totalCols, this.totalRows);
     this.iterateCells(this.cellsArray);
 
-    // console.log(
-    //   `total cols: ${this.totalCols} | total rows: ${this.totalRows}`
-    // );
-    // console.log(
-    //   `canvas W: ${this.ctx.canvas.width} | canvas H: ${this.ctx.canvas.height}`
-    // );
   }
 
   // x,y cartesians
@@ -92,9 +86,9 @@ export class MazeComponent implements OnInit, AfterViewInit {
         this.cellsArray.push(cell);
       }
     }
-    if (this.visitedCellFlag) {
-      this.cellsArray[0] = new Cell(0, 0, this.colWidth, this.rowHeight);
-    }
+    this.currentCell = this.cellsArray[0];
+    this.currentCell.visited = true;
+    console.log(this.currentCell);
     return this.cellsArray;
   }
 
@@ -107,19 +101,20 @@ export class MazeComponent implements OnInit, AfterViewInit {
         cells[i].X,
         cells[i].Y,
         cells[i].colWidth,
-        cells[i].colHeight
+        cells[i].rowHeight
       );
-      // console.log(`X: ${cells[i].x} | Y: ${cells[i].y} | colWidth ${this.colWidth} | rowHeight ${this.rowHeight}`);
+      // this.currentCell.visited = true;
     }
-    this.currentCell = this.cellsArray[0];
   }
 
   drawCells(X: number, Y: number, colWidth: number, rowHeight: number) {
     let walls: Array<boolean> = [true, true, true, true];
-    console.log(X, Y, colWidth, rowHeight);
+    // console.log(X, Y, colWidth, rowHeight);
+
     this.ctx.strokeStyle = "red";
     this.ctx.lineWidth = 1;
-    if(this.visitedCellFlag) {
+
+    if (this.currentCell.visited) {
       this.ctx.fillRect(0, 0, colWidth, rowHeight);
     }
     // horizontal upper lines
@@ -152,4 +147,50 @@ export class MazeComponent implements OnInit, AfterViewInit {
     // draw cell one function
     // this.ctx.strokeRect(X, Y, width, height);
   }
+
+  checkNeigbors(
+    x: number,
+    y: number,
+    cols: number,
+    rows: number,
+    cellsArray: Array<Cell>
+  ) {
+    let neighbors: Array<Cell> = [];
+    const topCell: Cell = cellsArray[this.getCellIndex(x, y - 1, cols, rows)];
+    const rightCell: Cell = cellsArray[this.getCellIndex(x + 1, y, cols, rows)];
+    const bottomCell: Cell = cellsArray[this.getCellIndex(x, y + 1, cols, rows)];
+    const leftCell: Cell = cellsArray[this.getCellIndex(x - 1, y, cols, rows)];
+
+    if (topCell && !topCell.visited) {
+      neighbors.push(topCell);
+    }
+    if (rightCell && !rightCell.visited) {
+      neighbors.push(rightCell);
+    }
+    if (bottomCell && !bottomCell.visited) {
+      neighbors.push(bottomCell);
+    }
+    if (leftCell && !leftCell.visited) {
+      neighbors.push(leftCell);
+    }
+    if (neighbors.length > 0) {
+      let random = this.service.getRandomInt(neighbors.length);
+      return neighbors[random];
+    } else {
+      return undefined;
+    }
+  }
+
+  getCellIndex(x, y, cols, rows) {
+    if (x < 0 || y < 0 || x > cols - 1 || y > rows - 1) {
+      return -1;
+    }
+
+    return this.x + this.y * this.cols;
+  }
+
+
+
+
+
 }

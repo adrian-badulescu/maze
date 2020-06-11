@@ -37,6 +37,10 @@ export class Service {
     return this.brickArr = arr;
   }
 
+
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
   
 
 
