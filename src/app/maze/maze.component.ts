@@ -23,7 +23,6 @@ export class MazeComponent implements OnInit, AfterViewInit {
   rowHeight: number;
   totalCols: number;
   totalRows: number;
-  
 
   private ctx: CanvasRenderingContext2D;
 
@@ -48,7 +47,7 @@ export class MazeComponent implements OnInit, AfterViewInit {
 
   getData() {
     this.service.dataArr$.subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.data = data;
       this.getWidthAndHeigth(data);
       // this.bricksArray = this.service.range(0, data["density"]);
@@ -74,7 +73,6 @@ export class MazeComponent implements OnInit, AfterViewInit {
     this.totalRows = Math.floor(h / this.rowHeight);
     this.generateCells(this.totalCols, this.totalRows);
     this.iterateCells(this.cellsArray);
-
   }
 
   // x,y cartesians
@@ -83,11 +81,11 @@ export class MazeComponent implements OnInit, AfterViewInit {
       for (let x = 0; x < numberOfCols; x++) {
         // making a new cell for each iteration
         const cell = new Cell(x, y, this.colWidth, this.rowHeight);
+        this.currentCell = this.cellsArray[0];        
         this.cellsArray.push(cell);
       }
     }
-    this.currentCell = this.cellsArray[0];
-    this.currentCell.visited = true;
+
     console.log(this.currentCell);
     return this.cellsArray;
   }
@@ -101,22 +99,35 @@ export class MazeComponent implements OnInit, AfterViewInit {
         cells[i].X,
         cells[i].Y,
         cells[i].colWidth,
-        cells[i].rowHeight
+        cells[i].rowHeight,
+        cells[i].x,
+        cells[i].y,
+        arrLen,
+        cells
       );
-      // this.currentCell.visited = true;
+      this.currentCell.visited = true;
     }
   }
 
-  drawCells(X: number, Y: number, colWidth: number, rowHeight: number) {
+  drawCells(
+    X: number,
+    Y: number,
+    colWidth: number,
+    rowHeight: number,
+    x: number,
+    y: number,
+    // visited,
+    cols: number,
+    arr
+  ) {
     let walls: Array<boolean> = [true, true, true, true];
-    // console.log(X, Y, colWidth, rowHeight);
 
+    // console.log(X, Y, colWidth, rowHeight);
+    this.checkNeigbors(x, y, cols, cols, arr);
+    console.log(this.checkNeigbors(x, y, cols, cols, arr));
     this.ctx.strokeStyle = "red";
     this.ctx.lineWidth = 1;
-
-    if (this.currentCell.visited) {
-      this.ctx.fillRect(0, 0, colWidth, rowHeight);
-    }
+    this.currentCell.visited = true;
     // horizontal upper lines
     if (walls[0]) {
       this.ctx.moveTo(X, Y);
@@ -140,7 +151,9 @@ export class MazeComponent implements OnInit, AfterViewInit {
       this.ctx.moveTo(X - colWidth, Y + rowHeight);
       this.ctx.lineTo(X - colWidth, Y - rowHeight);
     }
-
+    if (this.currentCell.visited) {
+      this.ctx.fillRect(X, Y, colWidth, rowHeight);
+    }
     // draw the lines
     this.ctx.stroke();
 
@@ -188,9 +201,4 @@ export class MazeComponent implements OnInit, AfterViewInit {
 
     return x + y * cols;
   }
-
-
-
-
-
 }

@@ -33,8 +33,8 @@ export class Cell {
     this.Y = y * rowHeight;
     this.colWidth = colWidth;
     this.rowHeight = rowHeight;
+    this.visited = false;
+    console.log('here');
   }
-
-
-
+  
 }
