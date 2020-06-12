@@ -186,7 +186,7 @@ export class MazeComponent implements OnInit, AfterViewInit {
       return -1;
     }
 
-    return this.x + this.y * this.cols;
+    return x + y * cols;
   }
 
 
